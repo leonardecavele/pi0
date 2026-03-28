@@ -11,9 +11,9 @@ int kmain(uintptr_t dtb)
 	*/
 
 	gpio_set_func(14u, GPIO_ALT0);
-	gpio_set_pull(14u, GPIO_PULL_DOWN);
+	gpio_set_pull(14u, GPIO_PULL_OFF);
 	gpio_set_func(15u, GPIO_ALT0);
-	gpio_set_pull(15u, GPIO_PULL_DOWN);
+	gpio_set_pull(15u, GPIO_PULL_OFF);
 	uart_init(BCM2835_UART0, UART_CLK, UART_BAUD);
 
 	uart_printf(BCM2835_UART0, "hello world\r\n");
