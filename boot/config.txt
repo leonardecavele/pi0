@@ -2,3 +2,5 @@ arm_64bit=1
 kernel_address=0x80000
 kernel=kernel.img
 device_tree=bcm2712-rpi-5-b.dtb
+init_uart_clock=3000000
+init_uart_baud=115200
