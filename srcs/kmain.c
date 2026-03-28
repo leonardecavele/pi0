@@ -10,6 +10,9 @@ int kmain(uintptr_t dtb)
 	   screen
 	*/
 
+	gpio_set_func(17u, GPIO_OUTPUT);
+	gpio_write(17u, 1);
+
 	gpio_set_func(14u, GPIO_ALT0);
 	gpio_set_pull(14u, GPIO_PULL_OFF);
 	gpio_set_func(15u, GPIO_ALT0);
@@ -19,5 +22,9 @@ int kmain(uintptr_t dtb)
 	uart_printf(BCM2835_UART0, "hello world\r\n");
 
 	/* cpu hang */
-	while (1) {}
+	while (1)
+	{
+		uart_printf(BCM2835_UART0, "hello world\r\n");
+		for (volatile uint32_t i = 0; i < 500000; i++) {}
+	}
 }
