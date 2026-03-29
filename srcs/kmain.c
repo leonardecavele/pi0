@@ -12,9 +12,9 @@ int kmain(uintptr_t dtb)
 	*/
 
 	/* set-up leds GPIO */
-	gpio_set_func(17u, GPIO_OUTPUT);
-	gpio_set_func(27u, GPIO_OUTPUT);
-	gpio_set_func(22u, GPIO_OUTPUT);
+	//gpio_set_func(17u, GPIO_OUTPUT);
+	//gpio_set_func(27u, GPIO_OUTPUT);
+	//gpio_set_func(22u, GPIO_OUTPUT);
 
 	/* set-up UART0 GPIO */
 	gpio_set_func(14u, GPIO_ALT0);
@@ -26,9 +26,8 @@ int kmain(uintptr_t dtb)
 
 	/* UART test */
 	uart_printf(BCM2835_UART0, "hello world\r\n");
+	wait_cmd(BCM2835_UART0);
 
 	/* cpu hang */
-	while (1) {
-		wait_cmd(BCM2835_UART0);
-	}
+	while (1) {}
 }
