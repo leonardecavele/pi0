@@ -45,8 +45,16 @@ int kmain(uintptr_t dtb)
 	gpio_event_clear(23u);
 	gpio_enable_falling(23u);
 	gpio_event_clear(23u);
+
+	/* reset interrupt controller state */
+	REG4B(BCM2835_IRQ + IRQ_DISABLE_1) = 0xffffffffu;
+	REG4B(BCM2835_IRQ + IRQ_DISABLE_2) = 0xffffffffu;
+	REG4B(BCM2835_IRQ + IRQ_DISABLE_BASIC) = 0xffffffffu;
+	REG4B(BCM2835_IRQ + IRQ_FIQ_CTRL) = 0u;
+
 	/* enable bcm2835 IRQ */
 	REG4B(BCM2835_IRQ + IRQ_ENABLE_2) = IRQ_GPIO_BANK0_BIT;
+
 	/* enable interrupts */
 	asm volatile("cpsie i");
 
