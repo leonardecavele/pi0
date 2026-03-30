@@ -3,14 +3,14 @@
 
 .align 5
 vectors:
-	b _start      // reset
-	b .           // undefined instruction
-	b .           // swi / svc
-	b .           // prefetch abort
-	b .           // data abort
-	b .           // reserved
-	ldr pc, =irq  // irq
-	b .           // fiq
+	b _start    // reset
+	b .         // undefined instruction
+	b .         // swi / svc
+	b .         // prefetch abort
+	b .         // data abort
+	b .         // reserved
+	b irq		// irq
+	b .         // fiq
 
 irq:
     stmfd sp!, {r0-r3, r12, lr}
@@ -22,9 +22,18 @@ _start:
 	/* disable interrupts */
 	cpsid if
 
-	/* install vector table FIRST */
+	/* force low vectors so VBAR is used */
+	mrc p15, 0, r0, c1, c0, 0
+	bic r0, r0, #0x2000
+	mcr p15, 0, r0, c1, c0, 0
+
+	/* install vector table */
 	ldr r0, =vectors
 	mcr p15, 0, r0, c12, c0, 0
+
+	/* instruction synchronization barrier for ARMv6 */
+	mov r0, #0
+	mcr p15, 0, r0, c7, c5, 4
 
 	/* switch to IRQ mode */
 	mrs r0, cpsr
@@ -56,9 +65,6 @@ bss_loop:
 	b bss_loop
 
 bss_done:
-	/* enable interrupts */
-	cpsie i
-
 	/* branch to kernel main */
 	bl kmain
 
