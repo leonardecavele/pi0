@@ -3,77 +3,48 @@
 #include "command.h"
 #include "irq.h"
 #include "time.h"
+#include "hardware_specific.h"
 
 #define TARGET_FPS 1u
 #define FRAME_US (1000000u / TARGET_FPS)
 
-static volatile bool g_int23_button = false;
-static volatile bool g_int24_button = false;
-static volatile bool g_int25_button = false;
-static volatile bool g_int26_button = false;
+static volatile bool g_left_button = false;
+static volatile bool g_up_button = false;
+static volatile bool g_right_button = false;
+static volatile bool g_down_button = false;
 
 void handle_irq(void)
 {
-	if (gpio_event_pending(23u)) {
-		gpio_event_clear(23u);
-		g_int23_button = true;
+	if (gpio_event_pending(LEFT_BUTTON_GPIO)) {
+		gpio_event_clear(LEFT_BUTTON_GPIO);
+		g_left_button = true;
 	}
-	if (gpio_event_pending(24u)) {
-		gpio_event_clear(24u);
-		g_int24_button = true;
+	if (gpio_event_pending(UP_BUTTON_GPIO)) {
+		gpio_event_clear(UP_BUTTON_GPIO);
+		g_up_button = true;
 	}
-	if (gpio_event_pending(25u)) {
-		gpio_event_clear(25u);
-		g_int25_button = true;
+	if (gpio_event_pending(RIGHT_BUTTON_GPIO)) {
+		gpio_event_clear(RIGHT_BUTTON_GPIO);
+		g_right_button = true;
 	}
-	if (gpio_event_pending(26u)) {
-		gpio_event_clear(26u);
-		g_int26_button = true;
+	if (gpio_event_pending(DOWN_BUTTON_GPIO)) {
+		gpio_event_clear(DOWN_BUTTON_GPIO);
+		g_down_button = true;
 	}
 }
 
-int kmain(uintptr_t dtb)
+int kmain(void)
 {
-	(void)dtb;
-
-	/* set-up UART0 GPIO */
-	gpio_set_func(14u, GPIO_ALT0);
-	gpio_set_pull(14u, GPIO_PULL_OFF);
-	gpio_set_func(15u, GPIO_ALT0);
-	gpio_set_pull(15u, GPIO_PULL_OFF);
 	/* init UART0 */
+	set_up_uart_gpio(UART_TXD_GPIO);
+	set_up_uart_gpio(UART_RXD_GPIO);
 	uart_init(BCM2835_UART0, UART_CLK, UART_BAUD);
-	/* UART test */
 	uart_printf(BCM2835_UART0, "hello world\r\n");
-	wait_cmd(BCM2835_UART0);
 
-	/* set-up button GPIO 23 */
-	gpio_set_func(23u, GPIO_INPUT);
-	gpio_set_pull(23u, GPIO_PULL_UP);
-	gpio_event_clear(23u);
-	gpio_enable_falling(23u);
-	gpio_event_clear(23u);
-
-	/* set-up button GPIO 24 */
-	gpio_set_func(24u, GPIO_INPUT);
-	gpio_set_pull(24u, GPIO_PULL_UP);
-	gpio_event_clear(24u);
-	gpio_enable_falling(24u);
-	gpio_event_clear(24u);
-
-	/* set-up button GPIO 25 */
-	gpio_set_func(25u, GPIO_INPUT);
-	gpio_set_pull(25u, GPIO_PULL_UP);
-	gpio_event_clear(25u);
-	gpio_enable_falling(25u);
-	gpio_event_clear(25u);
-
-	/* set-up button GPIO 26 */
-	gpio_set_func(26u, GPIO_INPUT);
-	gpio_set_pull(26u, GPIO_PULL_UP);
-	gpio_event_clear(26u);
-	gpio_enable_falling(26u);
-	gpio_event_clear(26u);
+	set_up_input_gpio(LEFT_BUTTON_GPIO);
+	set_up_input_gpio(UP_BUTTON_GPIO);
+	set_up_input_gpio(RIGHT_BUTTON_GPIO);
+	set_up_input_gpio(DOWN_BUTTON_GPIO);
 
 	irq_controller_reset();
 	irq_controller_enable(IRQ_GPIO_BANK0);
@@ -84,27 +55,26 @@ int kmain(uintptr_t dtb)
 	while (1) {
 		uint32_t start_us = get_time_us();
 
-		if (g_int23_button) {
-			g_int23_button = false;
+		if (g_left_button) {
+			g_left_button = false;
 		}
-		if (g_int24_button) {
-			g_int24_button = false;
+		if (g_up_button) {
+			g_up_button = false;
 		}
-		if (g_int25_button) {
-			g_int25_button = false;
+		if (g_right_button) {
+			g_right_button = false;
 		}
-		if (g_int26_button) {
-			g_int26_button = false;
+		if (g_down_button) {
+			g_down_button = false;
 		}
 
 		uint32_t elapsed_us = (get_time_us() - start_us) + excess;
 
-
-		uart_printf(
-			BCM2835_UART0,
-			"now=%u us | frame=%u us | excess=%u\r\n",
-			get_time_us(), elapsed_us, excess
-		);
+		//uart_printf(
+		//	BCM2835_UART0,
+		//	"now=%u us | frame=%u us | excess=%u\r\n",
+		//	get_time_us(), elapsed_us, excess
+		//);
 
 		if (elapsed_us < FRAME_US) {
 			usleep(FRAME_US - elapsed_us);

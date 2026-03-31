@@ -1,10 +1,5 @@
 #include "display.h"
-
-static void	display_delay(volatile uint32_t count)
-{
-	while (count > 0u)
-		count--;
-}
+#include "time.h"
 
 extern void	display_init(void)
 {
@@ -19,11 +14,11 @@ extern void	display_init(void)
 extern void	display_reset(void)
 {
 	gpio_write(DISPLAY_RST_GPIO, true);
-	display_delay(50000u);
+	usleep(5000u);
 	gpio_write(DISPLAY_RST_GPIO, false);
-	display_delay(50000u);
+	usleep(5000u);
 	gpio_write(DISPLAY_RST_GPIO, true);
-	display_delay(50000u);
+	usleep(5000u);
 }
 
 extern void	display_set_mode(t_display_mode mode)
