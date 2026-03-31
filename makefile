@@ -31,11 +31,10 @@ C_SRCS = \
 		 uart.c \
 		 gpio.c \
 		 standard.c \
-		 command.c \
 		 time.c \
 		 display.c \
 		 spi.c \
-		 hardware_specific.c
+		 mapping.c
 
 LD_SCRIPT = kernel.ld
 IMG = $(OUT)/$(NAME).img

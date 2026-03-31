@@ -10,14 +10,6 @@ extern void	spi_init(uint16_t clk_div, t_spi_mode mode)
 {
 	uint32_t	cs;
 
-	gpio_set_func(SPI0_CE0_GPIO, GPIO_ALT0);
-	gpio_set_func(SPI0_MOSI_GPIO, GPIO_ALT0);
-	gpio_set_func(SPI0_SCLK_GPIO, GPIO_ALT0);
-
-	gpio_set_pull(SPI0_CE0_GPIO, GPIO_PULL_OFF);
-	gpio_set_pull(SPI0_MOSI_GPIO, GPIO_PULL_OFF);
-	gpio_set_pull(SPI0_SCLK_GPIO, GPIO_PULL_OFF);
-
 	cs = 0u;
 	cs |= ((uint32_t)SPI_CLEAR_RX_TX << SPI_CS_SHIFT_CLEAR);
 	cs |= (uint32_t)SPI_CS_0;

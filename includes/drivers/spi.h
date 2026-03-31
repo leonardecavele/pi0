@@ -3,10 +3,6 @@
 
 #include "gpio.h"
 
-#define SPI0_CE0_GPIO  8u
-#define SPI0_MOSI_GPIO 10u
-#define SPI0_SCLK_GPIO 11u
-
 /* register access */
 #define SPI0_REG(a) (BCM2835_SPI0 + (uint32_t)(a))
 
@@ -20,9 +16,6 @@ typedef enum e_spi0_offset
 	 SPI0_DC   = 0x14u
 }	t_spi0_offset;
 
-/*
-** SPI0_CS register bits
-*/
 typedef enum e_spi_cs_shift
 {
 	 SPI_CS_SHIFT_CS      = 0,

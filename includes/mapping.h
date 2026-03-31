@@ -5,6 +5,9 @@
 
 typedef enum e_gpio_mapping
 {
+	SPI0_CE0_GPIO = 8u,
+	SPI0_MOSI_GPIO = 10u,
+	SPI0_SCLK_GPIO = 11u,
 	UART_TXD_GPIO = 14u,
 	UART_RXD_GPIO = 15u,
 	LEFT_BUTTON_GPIO = 23u,
@@ -13,7 +16,8 @@ typedef enum e_gpio_mapping
 	DOWN_BUTTON_GPIO = 26u
 }	t_gpio_mapping;
 
-void set_up_input_gpio(uint32_t gpio);
-void set_up_uart_gpio(uint32_t gpio);
+void mapping_buttons(void);
+void mapping_uart(void);
+void mapping_spi(void);
 
 #endif

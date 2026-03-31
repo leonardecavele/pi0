@@ -1,14 +1,5 @@
 #include "gpio.h"
-
-/* WIP before real timer set-up */
-static void gpio_delay(uint32_t n)
-{
-	volatile uint32_t	i;
-
-	i = 0u;
-	while (i < n)
-		i++;
-}
+#include "time.h"
 
 extern void gpio_set_func(uint32_t gpio, t_gpio_funcsel func)
 {
@@ -28,6 +19,18 @@ extern void gpio_set_func(uint32_t gpio, t_gpio_funcsel func)
 	REG4B(GPIO_FSEL(gpio)) = reg;
 }
 
+extern void gpio_set_pull(uint32_t gpio, t_gpio_pull pull)
+{
+	if (gpio > GPIO_MAX)
+		return ;
+	REG4B(BCM2835_GPIO + GPPUD) = ((uint32_t)pull << PUD_SHIFT) & PUD_MASK;
+	usleep(150u);
+	REG4B(GPIO_PUDCLK(gpio)) = GPIO_MASK(gpio);
+	usleep(150u);
+	REG4B(BCM2835_GPIO + GPPUD) = 0u;
+	REG4B(GPIO_PUDCLK(gpio)) = 0u;
+}
+
 extern void gpio_write(uint32_t gpio, bool value)
 {
 	if (gpio > GPIO_MAX)
@@ -43,18 +46,6 @@ extern bool gpio_read(uint32_t gpio)
 	if (gpio > GPIO_MAX)
 		return (false);
 	return (GPIO_GET_BIT(gpio) != 0u);
-}
-
-extern void gpio_set_pull(uint32_t gpio, t_gpio_pull pull)
-{
-	if (gpio > GPIO_MAX)
-		return ;
-	REG4B(BCM2835_GPIO + GPPUD) = ((uint32_t)pull << PUD_SHIFT) & PUD_MASK;
-	gpio_delay(150u);
-	REG4B(GPIO_PUDCLK(gpio)) = GPIO_MASK(gpio);
-	gpio_delay(150u);
-	REG4B(BCM2835_GPIO + GPPUD) = 0u;
-	REG4B(GPIO_PUDCLK(gpio)) = 0u;
 }
 
 extern void gpio_enable_falling(uint32_t gpio)
