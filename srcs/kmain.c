@@ -2,6 +2,10 @@
 #include "uart.h"
 #include "command.h"
 #include "irq.h"
+#include "time.h"
+
+#define TARGET_FPS 60u
+#define FRAME_US (1000000u / TARGET_FPS)
 
 static volatile bool g_int23_button = false;
 static volatile bool g_int24_button = false;
@@ -10,23 +14,19 @@ static volatile bool g_int26_button = false;
 
 void handle_irq(void)
 {
-	if (gpio_event_pending(23u))
-	{
+	if (gpio_event_pending(23u)) {
 		gpio_event_clear(23u);
 		g_int23_button = true;
 	}
-	if (gpio_event_pending(24u))
-	{
+	if (gpio_event_pending(24u)) {
 		gpio_event_clear(24u);
 		g_int24_button = true;
 	}
-	if (gpio_event_pending(25u))
-	{
+	if (gpio_event_pending(25u)) {
 		gpio_event_clear(25u);
 		g_int25_button = true;
 	}
-	if (gpio_event_pending(26u))
-	{
+	if (gpio_event_pending(26u)) {
 		gpio_event_clear(26u);
 		g_int26_button = true;
 	}
@@ -34,12 +34,7 @@ void handle_irq(void)
 
 int kmain(uintptr_t dtb)
 {
-	/* todo
-	   uart
-	   sleep
-	   gpio (led, button (signals))
-	   screen
-	*/
+	(void)dtb;
 
 	/* set-up UART0 GPIO */
 	gpio_set_func(14u, GPIO_ALT0);
@@ -84,24 +79,30 @@ int kmain(uintptr_t dtb)
 	irq_controller_enable(IRQ_GPIO_BANK0);
 	irq_enable();
 
-	/* cpu hang */
+	/* main loop */
+	uint32_t excess = 0u;
 	while (1) {
-		if (g_int23_button)
-		{
+		uint32_t start_us = get_time_us();
+
+		if (g_int23_button) {
 			g_int23_button = false;
 		}
-		if (g_int24_button)
-		{
+		if (g_int24_button) {
 			g_int24_button = false;
 		}
-		if (g_int25_button)
-		{
+		if (g_int25_button) {
 			g_int25_button = false;
 		}
-		if (g_int26_button)
-		{
+		if (g_int26_button) {
 			g_int26_button = false;
 		}
-		sleep();
+
+		uint32_t elapsed_us = (get_time_us() - start_us) + excess;
+		if (elapsed_us < FRAME_US) {
+			usleep(FRAME_US - elapsed_us);
+			excess = 0u;
+		}
+		else
+			excess = elapsed_us - FRAME_US;
 	}
 }
