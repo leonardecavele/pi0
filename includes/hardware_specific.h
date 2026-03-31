@@ -13,7 +13,7 @@ typedef enum e_gpio_mapping
 	DOWN_BUTTON_GPIO = 26u
 }	t_gpio_mapping;
 
-void set_up_input_gpio(uint32_t gpio)
-void set_up_uart_gpio(uint32_t gpio)
+void set_up_input_gpio(uint32_t gpio);
+void set_up_uart_gpio(uint32_t gpio);
 
 #endif

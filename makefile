@@ -34,7 +34,8 @@ C_SRCS = \
 		 command.c \
 		 time.c \
 		 display.c \
-		 spi.c
+		 spi.c \
+		 hardware_specific.c
 
 LD_SCRIPT = kernel.ld
 IMG = $(OUT)/$(NAME).img
