@@ -47,3 +47,13 @@ extern void mapping_spi(void)
 	gpio_set_pull(SPI0_MOSI_GPIO, GPIO_PULL_OFF);
 	gpio_set_pull(SPI0_SCLK_GPIO, GPIO_PULL_OFF);
 }
+
+extern void	mapping_display(void)
+{
+	gpio_set_func(DISPLAY_DC_GPIO, GPIO_OUTPUT);
+	gpio_set_func(DISPLAY_RST_GPIO, GPIO_OUTPUT);
+	gpio_set_pull(DISPLAY_DC_GPIO, GPIO_PULL_OFF);
+	gpio_set_pull(DISPLAY_RST_GPIO, GPIO_PULL_OFF);
+	gpio_write(DISPLAY_DC_GPIO, true);
+	gpio_write(DISPLAY_RST_GPIO, true);
+}

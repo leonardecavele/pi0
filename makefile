@@ -22,19 +22,18 @@ LD_FLAGS = -Wl,-z,max-page-size=4096 -Wl,-Map,$(MAP)
 
 # files
 S_SRCS = \
-		 boot.s \
-		 standard.s \
-		 irq.s
+		 boot/boot.s \
+		 drivers/irq.s
 
 C_SRCS = \
 		 kmain.c \
-		 uart.c \
-		 gpio.c \
-		 standard.c \
-		 time.c \
 		 display.c \
-		 spi.c \
-		 mapping.c
+		 mapping.c \
+		 drivers/uart.c \
+		 drivers/gpio.c \
+		 drivers/spi.c \
+		 helpers/standard.c \
+		 helpers/time.c
 
 LD_SCRIPT = kernel.ld
 IMG = $(OUT)/$(NAME).img

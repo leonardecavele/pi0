@@ -53,3 +53,8 @@ extern void	strcpy(char *dst, const char *src, uint32_t max_len)
 	}
 	dst[i] = '\0';
 }
+
+extern void sleep(void)
+{
+	__asm__ volatile ("wfi");
+}
