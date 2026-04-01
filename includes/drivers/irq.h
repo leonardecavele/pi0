@@ -1,8 +1,8 @@
 #ifndef IRQ_H
 #define IRQ_H
 
-#include "standard.h"
-#include "bcm2835.h"
+#include "helpers/standard.h"
+#include "drivers/bcm2835.h"
 
 #define IRQ_COUNT 72u
 #define IRQ_GPIO_BANK0 49u

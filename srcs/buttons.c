@@ -1,6 +1,6 @@
+#include "drivers/gpio.h"
+#include "drivers/irq.h"
 #include "buttons.h"
-#include "gpio.h"
-#include "irq.h"
 #include "mapping.h"
 
 static volatile bool g_left_button = false;

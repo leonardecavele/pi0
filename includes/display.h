@@ -1,9 +1,9 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
-#include "standard.h"
-#include "gpio.h"
-#include "spi.h"
+#include "helpers/standard.h"
+#include "drivers/gpio.h"
+#include "drivers/spi.h"
 
 typedef enum e_display_mode
 {

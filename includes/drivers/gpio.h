@@ -1,7 +1,7 @@
 #ifndef GPIO_H
 #define GPIO_H
 
-#include "bcm2835.h"
+#include "drivers/bcm2835.h"
 
 /* get function select address of gpio 'a' */
 #define GPIO_FSEL(a)	(BCM2835_GPIO + ((uint32_t)(a) / 10u) * 4u)

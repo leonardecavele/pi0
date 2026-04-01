@@ -1,8 +1,8 @@
 #ifndef TIME_H
 #define TIME_H
 
-#include "standard.h"
-#include "bcm2835.h"
+#include "helpers/standard.h"
+#include "drivers/bcm2835.h"
 
 #define ST_REG(a) (BCM2835_ST + (uint32_t)(a))
 

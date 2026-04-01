@@ -1,4 +1,4 @@
-#include "irq.h"
+#include "drivers/irq.h"
 
 static t_irq_handler g_irq_handlers[IRQ_COUNT];
 static void *g_irq_ctx[IRQ_COUNT];
@@ -28,7 +28,7 @@ extern void init_irq(void)
 	}
 }
 
-extern int register_irq(uint32_t irq, t_irq_handler fn, static void *ctx)
+extern int register_irq(uint32_t irq, t_irq_handler fn, void *ctx)
 {
 	if (irq >= IRQ_COUNT || fn == 0)
 		return -1;

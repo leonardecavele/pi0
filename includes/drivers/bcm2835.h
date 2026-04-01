@@ -1,8 +1,8 @@
 #ifndef BCM2835_H
 #define BCM2835_H
 
-#include "standard.h"
-#include "address.h"
+#include "helpers/standard.h"
+#include "helpers/address.h"
 
 /* peripheral base (ARM physical address) */
 #define BCM2835_PERI_BASE UADDR(0x20000000u)

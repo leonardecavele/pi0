@@ -22,16 +22,20 @@ LD_FLAGS = -Wl,-z,max-page-size=4096 -Wl,-Map,$(MAP)
 
 # files
 S_SRCS = \
-		 boot/boot.s \
+		 system/boot.s \
+		 system/interrupts.s \
 		 drivers/irq.s
 
 C_SRCS = \
 		 kmain.c \
 		 display.c \
 		 mapping.c \
+		 buttons.c \
+		 snake.c \
 		 drivers/uart.c \
 		 drivers/gpio.c \
 		 drivers/spi.c \
+		 drivers/irq.c \
 		 helpers/standard.c \
 		 helpers/time.c
 

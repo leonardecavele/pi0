@@ -1,6 +1,6 @@
+#include "helpers/time.h"
 #include "display.h"
 #include "mapping.h"
-#include "time.h"
 
 void display_reset(void)
 {

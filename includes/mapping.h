@@ -1,7 +1,7 @@
 #ifndef MAPPING_H
 #define MAPPING_H
 
-#include "standard.h"
+#include "helpers/standard.h"
 
 typedef enum e_gpio_mapping
 {

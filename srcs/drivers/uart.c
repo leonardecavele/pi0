@@ -1,7 +1,7 @@
-#include "standard.h"
-#include "address.h"
-#include "gpio.h"
-#include "uart.h"
+#include "helpers/standard.h"
+#include "helpers/address.h"
+#include "drivers/gpio.h"
+#include "drivers/uart.h"
 
 static uint32_t uart_get_ibrd(uint32_t clk, uint32_t baud)
 {

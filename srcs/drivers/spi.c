@@ -1,4 +1,4 @@
-#include "spi.h"
+#include "drivers/spi.h"
 
 static void	spi_flush_rx(void)
 {

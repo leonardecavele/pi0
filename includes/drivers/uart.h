@@ -1,9 +1,9 @@
 #ifndef UART_H
 #define UART_H
 
-#include "standard.h"
-#include "address.h"
-#include "bcm2835.h"
+#include "helpers/standard.h"
+#include "helpers/address.h"
+#include "drivers/bcm2835.h"
 
 #define BASE10 "0123456789"
 #define BASE16 "0123456789abcdef"

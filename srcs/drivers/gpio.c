@@ -1,5 +1,5 @@
-#include "gpio.h"
-#include "time.h"
+#include "drivers/gpio.h"
+#include "helpers/time.h"
 
 extern void gpio_set_func(uint32_t gpio, t_gpio_funcsel func)
 {

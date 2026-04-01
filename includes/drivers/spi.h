@@ -1,7 +1,7 @@
 #ifndef SPI_H
 #define SPI_H
 
-#include "gpio.h"
+#include "drivers/gpio.h"
 
 /* register access */
 #define SPI0_REG(a) (BCM2835_SPI0 + (uint32_t)(a))

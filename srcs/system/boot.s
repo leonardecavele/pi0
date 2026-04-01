@@ -1,10 +1,10 @@
-.extern irq_disable
+.extern disable_irq
 
 .section .text
 .global _start
 
 _start:
-	bl irq_disable
+	bl disable_irq
 
 	/* switch to IRQ mode */
 	mrs r0, cpsr

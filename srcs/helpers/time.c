@@ -1,6 +1,6 @@
-#include "bcm2835.h"
-#include "address.h"
-#include "time.h"
+#include "drivers/bcm2835.h"
+#include "helpers/address.h"
+#include "helpers/time.h"
 
 uint64_t	get_time_us(void)
 {

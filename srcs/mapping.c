@@ -1,4 +1,4 @@
-#include "gpio.h"
+#include "drivers/gpio.h"
 #include "mapping.h"
 
 void mapping_buttons(void)
