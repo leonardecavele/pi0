@@ -36,11 +36,11 @@ uint32_t controller_pending_2_irq(void);
 uint32_t controller_basic_pending_irq(void);
 
 /* C driver */
-void irq_init(void);
-int irq_register(uint32_t irq, t_irq_handler fn, void *ctx);
-void irq_unregister(uint32_t irq);
-void irq_enable_line(uint32_t irq);
-void irq_disable_line(uint32_t irq);
+void init_irq(void);
+int register_irq(uint32_t irq, t_irq_handler fn, void *ctx);
+void unregister_irq(uint32_t irq);
+void enable_line_irq(uint32_t irq);
+void disable_line_irq(uint32_t irq);
 void handle_irq(void);
 
 #endif

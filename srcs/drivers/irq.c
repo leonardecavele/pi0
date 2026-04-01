@@ -18,7 +18,6 @@ static void dispatch_bits_irq(
 
 extern void init_irq(void)
 {
-	global_disable_irq();
 	vector_init_irq();
 	controller_reset_irq();
 	uint32_t i = -1;

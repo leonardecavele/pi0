@@ -45,8 +45,8 @@ TMP = $(IMG).tmp
 MAP = $(NAME).map
 ELF = $(BUILD)/$(NAME).elf
 
-S_OBJS = $(S_SRCS:%.s=$(BUILD)/s_%.o)
-C_OBJS = $(C_SRCS:%.c=$(BUILD)/c_%.o)
+S_OBJS = $(S_SRCS:%.s=$(BUILD)/%.s.o)
+C_OBJS = $(C_SRCS:%.c=$(BUILD)/%.c.o)
 
 # rules
 all: $(IMG)
@@ -56,12 +56,12 @@ $(IMG): $(C_OBJS) $(S_OBJS) $(LD_SCRIPT)
 	$(OBJCOPY) $(ELF) -O binary $(IMG)
 	dd if=$(IMG) of=$(TMP) bs=512 conv=sync && mv $(TMP) $(IMG)
 
-$(BUILD)/s_%.o: $(SRCS)/%.s
-	mkdir -p $(BUILD)
+$(BUILD)/%.s.o: $(SRCS)/%.s
+	mkdir -p $(dir $@)
 	$(CC) -c $< -o $@ $(S_FLAGS)
 
-$(BUILD)/c_%.o: $(SRCS)/%.c
-	mkdir -p $(BUILD)
+$(BUILD)/%.c.o: $(SRCS)/%.c
+	mkdir -p $(dir $@)
 	$(CC) -c $< -o $@ $(C_FLAGS)
 
 clean:
