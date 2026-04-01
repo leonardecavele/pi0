@@ -16,15 +16,20 @@ static void dispatch_bits_irq(
 		}
 }
 
+#include "drivers/uart.h"
 extern void init_irq(void)
 {
+	uart_printf(BCM2835_UART0, "A\r\n");
 	vector_init_irq();
+	uart_printf(BCM2835_UART0, "B\r\n");
 	controller_reset_irq();
+	uart_printf(BCM2835_UART0, "C\r\n");
 	uint32_t i = -1;
 	while (++i < IRQ_COUNT) {
 		g_irq_handlers[i] = 0;
 		g_irq_ctx[i] = 0;
 	}
+	uart_printf(BCM2835_UART0, "D\r\n");
 }
 
 extern int register_irq(uint32_t irq, t_irq_handler fn, void *ctx)

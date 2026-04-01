@@ -41,10 +41,14 @@ cpu_isb:
 	bx lr
 
 vector_init_irq:
+	stmfd sp!, {lr}
+
 	bl cpu_use_low_vectors_vbar
 	ldr r0, =__exception_vectors
 	bl cpu_set_vbar
 	bl cpu_isb
+
+	ldmfd sp!, {lr}
 	bx lr
 
 controller_reset_irq:
