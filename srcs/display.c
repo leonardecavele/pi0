@@ -1,7 +1,8 @@
 #include "display.h"
+#include "mapping.h"
 #include "time.h"
 
-extern void	display_reset(void)
+void display_reset(void)
 {
 	gpio_write(DISPLAY_RST_GPIO, true);
 	usleep(5000u);
@@ -11,7 +12,7 @@ extern void	display_reset(void)
 	usleep(5000u);
 }
 
-extern void	display_set_mode(t_display_mode mode)
+void display_set_mode(t_display_mode mode)
 {
 	if (mode == DISPLAY_COMMAND)
 		gpio_write(DISPLAY_DC_GPIO, false);

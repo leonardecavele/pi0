@@ -4,8 +4,11 @@
 #include "standard.h"
 #include "bcm2835.h"
 
+#define IRQ_COUNT 72u
 #define IRQ_GPIO_BANK0 49u
 #define IRQ_GPIO_BANK0_BIT (1u << (IRQ_GPIO_BANK0 - 32u))
+
+typedef void (*t_irq_handler)(void *ctx);
 
 typedef enum e_irq_reg
 {
@@ -32,19 +35,12 @@ uint32_t irq_controller_pending_1(void);
 uint32_t irq_controller_pending_2(void);
 uint32_t irq_controller_basic_pending(void);
 
-/* generic C driver */
+/* C driver */
 void irq_init(void);
 int irq_register(uint32_t irq, t_irq_handler fn, void *ctx);
 void irq_unregister(uint32_t irq);
 void irq_enable_line(uint32_t irq);
 void irq_disable_line(uint32_t irq);
-void irq_global_enable(void);
-void irq_global_disable(void);
 void handle_irq(void);
-
-volatile bool g_left_button;
-volatile bool g_up_button;
-volatile bool g_right_button;
-volatile bool g_down_button;
 
 #endif

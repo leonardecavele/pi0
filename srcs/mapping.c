@@ -1,7 +1,7 @@
 #include "gpio.h"
-#include "hardware_specific.h"
+#include "mapping.h"
 
-extern void mapping_buttons(void)
+void mapping_buttons(void)
 {
 	gpio_set_func(LEFT_BUTTON_GPIO, GPIO_INPUT);
 	gpio_set_pull(LEFT_BUTTON_GPIO, GPIO_PULL_UP);
@@ -28,7 +28,7 @@ extern void mapping_buttons(void)
 	gpio_event_clear(DOWN_BUTTON_GPIO);
 }
 
-extern void mapping_uart(uint32_t void)
+void mapping_uart(void)
 {
 	gpio_set_func(UART_TXD_GPIO, GPIO_ALT0);
 	gpio_set_pull(UART_TXD_GPIO, GPIO_PULL_OFF);
@@ -37,7 +37,7 @@ extern void mapping_uart(uint32_t void)
 	gpio_set_pull(UART_RXD_GPIO, GPIO_PULL_OFF);
 }
 
-extern void mapping_spi(void)
+void mapping_spi(void)
 {
 	gpio_set_func(SPI0_CE0_GPIO, GPIO_ALT0);
 	gpio_set_func(SPI0_MOSI_GPIO, GPIO_ALT0);
@@ -48,7 +48,7 @@ extern void mapping_spi(void)
 	gpio_set_pull(SPI0_SCLK_GPIO, GPIO_PULL_OFF);
 }
 
-extern void	mapping_display(void)
+void mapping_display(void)
 {
 	gpio_set_func(DISPLAY_DC_GPIO, GPIO_OUTPUT);
 	gpio_set_func(DISPLAY_RST_GPIO, GPIO_OUTPUT);

@@ -1,37 +1,25 @@
-#include "uart.h"
 #include "time.h"
 #include "snake.h"
-#include "irq.h"
+#include "buttons.h"
 
-/* not clean yet */
-extern void snake(void)
+void snake(void)
 {
-	/* main loop */
-	uint32_t excess = 0u;
+	uint32_t excess;
+	uint32_t start_us;
+	uint32_t elapsed_us;
+
+	excess = 0u;
 	while (1) {
-		uint32_t start_us = get_time_us();
-
-		if (g_left_button) {
-			g_left_button = false;
+		start_us = get_time_us();
+		if (button_left()) {
 		}
-		if (g_up_button) {
-			g_up_button = false;
+		if (button_up()) {
 		}
-		if (g_right_button) {
-			g_right_button = false;
+		if (button_right()) {
 		}
-		if (g_down_button) {
-			g_down_button = false;
+		if (button_down()) {
 		}
-
-		uint32_t elapsed_us = (get_time_us() - start_us) + excess;
-
-		//uart_printf(
-		//	BCM2835_UART0,
-		//	"now=%u us | frame=%u us | excess=%u\r\n",
-		//	get_time_us(), elapsed_us, excess
-		//);
-
+		elapsed_us = (get_time_us() - start_us) + excess;
 		if (elapsed_us < FRAME_US) {
 			usleep(FRAME_US - elapsed_us);
 			excess = 0u;

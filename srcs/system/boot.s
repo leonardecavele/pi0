@@ -1,10 +1,10 @@
-.extern disable_irq
+.extern irq_disable
 
 .section .text
 .global _start
 
 _start:
-	bl disable_irq
+	bl irq_disable
 
 	/* switch to IRQ mode */
 	mrs r0, cpsr
@@ -36,7 +36,6 @@ bss_loop:
 	b bss_loop
 
 bss_done:
-	/* branch to kernel main */
 	bl kmain
 
 cpu_hang:

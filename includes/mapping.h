@@ -16,7 +16,7 @@ typedef enum e_gpio_mapping
 	RIGHT_BUTTON_GPIO = 25u,
 	DOWN_BUTTON_GPIO = 26u,
 	DISPLAY_DC_GPIO = 27u
-}	t_gpio_mapping;
+} t_gpio_mapping;
 
 void mapping_buttons(void);
 void mapping_uart(void);
