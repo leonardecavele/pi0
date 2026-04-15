@@ -1,109 +1,47 @@
-#include "helpers/time.h"
 #include "display.h"
-#include "mapping.h"
 
-void display_reset(void)
+void	display_bind(t_display *display, void *driver,
+		const t_display_ops *ops)
 {
-	gpio_write(DISPLAY_RST_GPIO, true);
-	usleep(5000u);
-	gpio_write(DISPLAY_RST_GPIO, false);
-	usleep(5000u);
-	gpio_write(DISPLAY_RST_GPIO, true);
-	usleep(5000u);
+	if (display == 0)
+		return ;
+	display->driver = driver;
+	display->ops = ops;
 }
 
-void display_set_mode(t_display_mode mode)
+bool	display_init(t_display *display)
 {
-	if (mode == DISPLAY_COMMAND)
-		gpio_write(DISPLAY_DC_GPIO, false);
-	else
-		gpio_write(DISPLAY_DC_GPIO, true);
+	if (display == 0 || display->ops == 0 || display->ops->init == 0)
+		return (false);
+	return (display->ops->init(display));
 }
 
-/* build a structure screen with height and size so functions can
-   adapt by itself according to the screen
-*/
-
-/* to do */
-void cursed_square(void)
+void	display_reset(t_display *display)
 {
-	spi_init(64u, SPI_MODE0);
-	display_reset();
+	if (display == 0 || display->ops == 0 || display->ops->reset == 0)
+		return ;
+	display->ops->reset(display);
+}
 
-	display_set_mode(DISPLAY_COMMAND);
-	spi_begin();
-	spi_write(0x01);
-	spi_end();
+void	display_set_window(t_display *display, uint16_t x0, uint16_t y0,
+		uint16_t x1, uint16_t y1)
+{
+	if (display == 0 || display->ops == 0 || display->ops->set_window == 0)
+		return ;
+	display->ops->set_window(display, x0, y0, x1, y1);
+}
 
-	display_set_mode(DISPLAY_COMMAND);
-	spi_begin();
-	spi_write(0x11);
-	spi_end();
-	usleep(150000u);
+void	display_write_pixels(t_display *display, const uint16_t *pixels,
+		uint32_t count)
+{
+	if (display == 0 || display->ops == 0 || display->ops->write_pixels == 0)
+		return ;
+	display->ops->write_pixels(display, pixels, count);
+}
 
-	display_set_mode(DISPLAY_COMMAND);
-	spi_begin();
-	spi_write(0x3A);
-	spi_end();
-
-	display_set_mode(DISPLAY_BYTES);
-	spi_begin();
-	spi_write(0x05);
-	spi_end();
-
-	display_set_mode(DISPLAY_COMMAND);
-	spi_begin();
-	spi_write(0x36);
-	spi_end();
-
-	display_set_mode(DISPLAY_BYTES);
-	spi_begin();
-	spi_write(0x00);
-	spi_end();
-
-	display_set_mode(DISPLAY_COMMAND);
-	spi_begin();
-	spi_write(0x29);
-	spi_end();
-	usleep(20000u);
-
-	display_set_mode(DISPLAY_COMMAND);
-	spi_begin();
-	spi_write(0x2A);
-	spi_end();
-
-	display_set_mode(DISPLAY_BYTES);
-	spi_begin();
-	spi_write(0x00);
-	spi_write(0x00);
-	spi_write(0x00);
-	spi_write(127);
-	spi_end();
-
-	display_set_mode(DISPLAY_COMMAND);
-	spi_begin();
-	spi_write(0x2B);
-	spi_end();
-
-	display_set_mode(DISPLAY_BYTES);
-	spi_begin();
-	spi_write(0x00);
-	spi_write(0x00);
-	spi_write(0x00);
-	spi_write(127);
-	spi_end();
-
-	display_set_mode(DISPLAY_COMMAND);
-	spi_begin();
-	spi_write(0x2C);
-	spi_end();
-
-	display_set_mode(DISPLAY_BYTES);
-	spi_begin();
-	for (uint32_t i = 0; i < 128u * 128u; ++i)
-	{
-		spi_write(0xF8);
-		spi_write(0x00);
-	}
-	spi_end();
+void	display_write_color(t_display *display, uint16_t color, uint32_t count)
+{
+	if (display == 0 || display->ops == 0 || display->ops->write_color == 0)
+		return ;
+	display->ops->write_color(display, color, count);
 }

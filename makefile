@@ -28,14 +28,16 @@ S_SRCS = \
 
 C_SRCS = \
 		 kmain.c \
-		 display.c \
 		 mapping.c \
 		 buttons.c \
 		 snake.c \
+		 display.c \
+		 draw.c \
 		 drivers/uart.c \
 		 drivers/gpio.c \
 		 drivers/spi.c \
 		 drivers/irq.c \
+		 drivers/st7735.c \
 		 helpers/standard.c \
 		 helpers/time.c
 
