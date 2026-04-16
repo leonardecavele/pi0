@@ -42,16 +42,16 @@ int kmain(void)
 	uart_printf(BCM2835_UART0, "display ok\r\n");
 
 	while (1) {
-		draw_clear(&display, 0x0000u);
-		sleep(1);
+		draw_clear(&display, 0xFFFFu);
+		msleep(1000);
 		draw_fill_square(&display, 10u, 10u, 30u, 0xF800u);
-		sleep(1);
+		msleep(1000);
 		draw_fill_rect(&display, 50u, 20u, 40u, 25u, 0x07E0u);
-		sleep(1);
-		draw_rect(&display, 5u, 5u, 118u, 150u, 0xFFFFu);
-		sleep(1);
+		msleep(1000);
+		draw_rect(&display, 5u, 5u, 118u, 150u, 0x0000u);
+		msleep(1000);
 		draw_circle(&display, 64, 80, 20, 0x001Fu);
-		sleep(1);
+		msleep(1000);
 	}
 
 	snake();
