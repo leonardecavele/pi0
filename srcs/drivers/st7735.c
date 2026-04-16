@@ -119,15 +119,20 @@ static bool	st7735_init_impl(t_display *display)
 	st7735_write_command(st7735, ST7735_SLPOUT);
 	usleep(150000u);
 	st7735_write_command(st7735, ST7735_COLMOD);
-	st7735_write_data8(st7735, st7735->colmod);
+	st7735_write_data8(st7735, (uint8_t)st7735->colmod);
 	st7735_write_command(st7735, ST7735_MADCTL);
 	st7735_write_data8(st7735, st7735->madctl);
 	st7735_write_command(st7735, ST7735_NORON);
 	usleep(10000u);
 	st7735_write_command(st7735, ST7735_DISPON);
 	usleep(20000u);
-	st7735_set_window_impl(display, 0u, 0u,
-		(uint16_t)(display->width - 1u), (uint16_t)(display->height - 1u));
+	st7735_set_window_impl(
+		display,
+		0u,
+		0u,
+		(uint16_t)(display->width - 1u),
+		(uint16_t)(display->height - 1u)
+	);
 	return (true);
 }
 
@@ -151,8 +156,8 @@ void	st7735_init_struct(t_st7735 *st7735, uint16_t width, uint16_t height,
 	st7735->pins = pins;
 	st7735->clk_div = 64u;
 	st7735->spi_mode = SPI_MODE0;
-	st7735->madctl = 0x00u;
-	st7735->colmod = 0x05u;
+	st7735->madctl = 0u;
+	st7735->colmod = ST7735_COLMOD_16BIT;
 }
 
 void	st7735_attach_display(t_display *display, t_st7735 *st7735)

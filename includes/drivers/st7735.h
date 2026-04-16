@@ -47,6 +47,23 @@ typedef enum e_st7735_cmd
 	ST7735_GMCTRN1  = 0xE1
 } 	t_st7735_cmd;
 
+typedef enum e_st7735_madctl
+{
+	ST7735_MADCTL_MH  = 0x04,
+	ST7735_MADCTL_BGR = 0x08,
+	ST7735_MADCTL_ML  = 0x10,
+	ST7735_MADCTL_MV  = 0x20,
+	ST7735_MADCTL_MX  = 0x40,
+	ST7735_MADCTL_MY  = 0x80
+}	t_st7735_madctl;
+
+typedef enum e_st7735_colmod
+{
+	ST7735_COLMOD_12BIT = 0x03,
+	ST7735_COLMOD_16BIT = 0x05,
+	ST7735_COLMOD_18BIT = 0x06
+}	t_st7735_colmod;
+
 typedef struct s_st7735_pins
 {
 	uint32_t	dc_gpio;
@@ -55,19 +72,21 @@ typedef struct s_st7735_pins
 
 typedef struct s_st7735
 {
-	uint16_t	width;
-	uint16_t	height;
-	uint16_t	x_offset;
-	uint16_t	y_offset;
+	uint16_t		width;
+	uint16_t		height;
+	uint16_t		x_offset;
+	uint16_t		y_offset;
 	t_st7735_pins	pins;
-	uint16_t	clk_div;
-	t_spi_mode	spi_mode;
-	uint8_t		madctl;
-	uint8_t		colmod;
+	uint16_t		clk_div;
+	t_spi_mode		spi_mode;
+	uint8_t			madctl;
+	t_st7735_colmod	colmod;
 } 	t_st7735;
 
-void	st7735_init_struct(t_st7735 *st7735, uint16_t width, uint16_t height,
-		uint16_t x_offset, uint16_t y_offset, t_st7735_pins pins);
+void	st7735_init_struct(
+	t_st7735 *st7735, uint16_t width, uint16_t height,
+	uint16_t x_offset, uint16_t y_offset, t_st7735_pins pins
+);
 void	st7735_attach_display(t_display *display, t_st7735 *st7735);
 
 #endif
