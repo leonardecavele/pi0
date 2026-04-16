@@ -20,8 +20,6 @@ typedef struct s_display
 {
 	uint16_t		width;
 	uint16_t		height;
-	uint16_t		x_offset;
-	uint16_t		y_offset;
 	void			*driver;
 	const t_display_ops	*ops;
 } 	t_display;

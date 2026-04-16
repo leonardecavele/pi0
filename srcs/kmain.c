@@ -28,8 +28,11 @@ int kmain(void)
 
 	t_display display;
 	t_st7735 st7735;
+	t_st7735_pins	pins;
 
-	st7735_init_struct(&st7735, 128u, 160u, 0u, 0u);
+	pins.dc_gpio = DISPLAY_DC_GPIO;
+	pins.rst_gpio = DISPLAY_RST_GPIO;
+	st7735_init_struct(&st7735, 128u, 160u, 0u, 0u, pins);
 	st7735_attach_display(&display, &st7735);
 
 	if (display_init(&display) == false) {
@@ -38,11 +41,18 @@ int kmain(void)
 	}
 	uart_printf(BCM2835_UART0, "display ok\r\n");
 
-	draw_clear(&display, 0x0000u);
-	draw_fill_square(&display, 10u, 10u, 30u, 0xF800u);
-	draw_fill_rect(&display, 50u, 20u, 40u, 25u, 0x07E0u);
-	draw_rect(&display, 5u, 5u, 118u, 150u, 0xFFFFu);
-	draw_circle(&display, 64, 80, 20, 0x001Fu);
+	while (1) {
+		draw_clear(&display, 0x0000u);
+		sleep(1);
+		draw_fill_square(&display, 10u, 10u, 30u, 0xF800u);
+		sleep(1);
+		draw_fill_rect(&display, 50u, 20u, 40u, 25u, 0x07E0u);
+		sleep(1);
+		draw_rect(&display, 5u, 5u, 118u, 150u, 0xFFFFu);
+		sleep(1);
+		draw_circle(&display, 64, 80, 20, 0x001Fu);
+		sleep(1);
+	}
 
 	snake();
 	return (0);

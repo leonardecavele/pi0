@@ -47,12 +47,19 @@ typedef enum e_st7735_cmd
 	ST7735_GMCTRN1  = 0xE1
 } 	t_st7735_cmd;
 
+typedef struct s_st7735_pins
+{
+	uint32_t	dc_gpio;
+	uint32_t	rst_gpio;
+} 	t_st7735_pins;
+
 typedef struct s_st7735
 {
 	uint16_t	width;
 	uint16_t	height;
 	uint16_t	x_offset;
 	uint16_t	y_offset;
+	t_st7735_pins	pins;
 	uint16_t	clk_div;
 	t_spi_mode	spi_mode;
 	uint8_t		madctl;
@@ -60,7 +67,7 @@ typedef struct s_st7735
 } 	t_st7735;
 
 void	st7735_init_struct(t_st7735 *st7735, uint16_t width, uint16_t height,
-		uint16_t x_offset, uint16_t y_offset);
+		uint16_t x_offset, uint16_t y_offset, t_st7735_pins pins);
 void	st7735_attach_display(t_display *display, t_st7735 *st7735);
 
 #endif
