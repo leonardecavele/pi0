@@ -136,7 +136,7 @@ static bool	st7735_init_impl(t_display *display)
 	return (true);
 }
 
-static const t_display_ops	g_st7735_ops = {
+static const t_display_fn	g_st7735_fn = {
 	.init = st7735_init_impl,
 	.reset = st7735_hw_reset,
 	.set_window = st7735_set_window_impl,
@@ -166,5 +166,5 @@ void	st7735_attach_display(t_display *display, t_st7735 *st7735)
 		return ;
 	display->width = st7735->width;
 	display->height = st7735->height;
-	display_bind(display, st7735, &g_st7735_ops);
+	display_bind(display, st7735, &g_st7735_fn);
 }
