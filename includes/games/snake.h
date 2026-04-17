@@ -1,9 +1,11 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
-#define TARGET_FPS 1u
+#include "display/display.h"
+
+#define TARGET_FPS 24u
 #define FRAME_US (1000000u / TARGET_FPS)
 
-void snake(void);
+void snake(t_display *display);
 
 #endif

@@ -44,20 +44,8 @@ int kmain(void)
 	display_init(&display);
 	uart_printf(BCM2835_UART0, "DISPLAY set up\r\n");
 
-	#include "display/draw.h"
-	while (1) {
-		draw_clear(&display, 0xFFFFu);
-		msleep(1000);
-		draw_fill_square(&display, 10u, 10u, 30u, 0xF800u);
-		msleep(1000);
-		draw_fill_rect(&display, 50u, 20u, 40u, 25u, 0x07E0u);
-		msleep(1000);
-		draw_rect(&display, 5u, 5u, 118u, 150u, 0x0000u);
-		msleep(1000);
-		draw_circle(&display, 64, 80, 20, 0x001Fu);
-		msleep(1000);
-	}
-
-	snake();
+	uart_printf(BCM2835_UART0, "starting SNAKE\r\n");
+	snake(&display);
+	uart_printf(BCM2835_UART0, "finished SNAKE\r\n");
 	return (0);
 }
