@@ -1,5 +1,5 @@
 #include "drivers/gpio.h"
-#include "mapping.h"
+#include "system/mapping.h"
 
 void mapping_buttons(void)
 {

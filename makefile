@@ -28,11 +28,11 @@ S_SRCS = \
 
 C_SRCS = \
 		 kmain.c \
-		 mapping.c \
-		 buttons.c \
-		 snake.c \
-		 display.c \
-		 draw.c \
+		 system/mapping.c \
+		 system/buttons.c \
+		 games/snake.c \
+		 display/display.c \
+		 display/draw.c \
 		 drivers/uart.c \
 		 drivers/gpio.c \
 		 drivers/spi.c \

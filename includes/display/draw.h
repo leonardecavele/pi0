@@ -1,7 +1,7 @@
 #ifndef DRAW_H
 #define DRAW_H
 
-#include "display.h"
+#include "display/display.h"
 
 #define RGB565(r, g, b) \
 	(uint16_t)((((uint16_t)((r) & 0x1fu)) << 11) \

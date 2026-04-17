@@ -1,7 +1,7 @@
 #ifndef ST7735_H
 #define ST7735_H
 
-#include "display.h"
+#include "display/display.h"
 #include "drivers/spi.h"
 
 typedef enum e_st7735_dc_mode

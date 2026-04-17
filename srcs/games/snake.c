@@ -1,6 +1,6 @@
 #include "helpers/time.h"
-#include "snake.h"
-#include "buttons.h"
+#include "games/snake.h"
+#include "system/buttons.h"
 
 void snake(void)
 {

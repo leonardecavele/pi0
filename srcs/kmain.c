@@ -1,13 +1,11 @@
 #include "drivers/uart.h"
 #include "drivers/irq.h"
-#include "mapping.h"
-#include "snake.h"
-#include "buttons.h"
-
 #include "drivers/spi.h"
 #include "drivers/st7735.h"
-#include "display.h"
-#include "draw.h"
+#include "system/mapping.h"
+#include "system/buttons.h"
+#include "games/snake.h"
+#include "display/display.h"
 
 int kmain(void)
 {
@@ -46,6 +44,7 @@ int kmain(void)
 	display_init(&display);
 	uart_printf(BCM2835_UART0, "DISPLAY set up\r\n");
 
+	#include "display/draw.h"
 	while (1) {
 		draw_clear(&display, 0xFFFFu);
 		msleep(1000);

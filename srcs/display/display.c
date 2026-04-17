@@ -1,4 +1,4 @@
-#include "display.h"
+#include "display/display.h"
 
 extern void	display_init(t_display *display)
 {
