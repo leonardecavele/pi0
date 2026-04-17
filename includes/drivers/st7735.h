@@ -72,10 +72,6 @@ typedef struct s_st7735_pins
 
 typedef struct s_st7735
 {
-	uint16_t		width;
-	uint16_t		height;
-	uint16_t		x_offset;
-	uint16_t		y_offset;
 	t_st7735_pins	pins;
 	uint16_t		clk_div;
 	t_spi_mode		spi_mode;
@@ -83,10 +79,26 @@ typedef struct s_st7735
 	t_st7735_colmod	colmod;
 } 	t_st7735;
 
-void	st7735_init_struct(
-	t_st7735 *st7735, uint16_t width, uint16_t height,
-	uint16_t x_offset, uint16_t y_offset, t_st7735_pins pins
+void	st7735_hw_reset(t_display *display);
+void	st7735_set_window(
+	t_display *display, uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1
 );
-void	st7735_attach_display(t_display *display, t_st7735 *st7735);
+void	st7735_write_pixels(
+	t_display *display, const uint16_t *pixels, uint32_t count
+);
+void	st7735_write_color(
+	t_display *display, uint16_t color, uint32_t count
+);
+void st7735_init(t_display *display);
+
+typedef struct s_display_fn t_display_fn;
+
+static const t_display_fn st7735_fn = {
+	.init = st7735_init,
+	.reset = st7735_hw_reset,
+	.set_window = st7735_set_window,
+	.write_pixels = st7735_write_pixels,
+	.write_color = st7735_write_color
+};
 
 #endif

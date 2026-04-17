@@ -17,7 +17,7 @@ int kmain(void)
 	mapping_buttons();
 
 	uart_init(BCM2835_UART0, UART_CLK, UART_BAUD);
-	uart_printf(BCM2835_UART0, "UART set up\r\n");
+	uart_printf(BCM2835_UART0, "UART OK\r\n");
 
 	uart_printf(BCM2835_UART0, "setting up IRQ\r\n");
 	init_irq();
@@ -26,20 +26,25 @@ int kmain(void)
 	enable_irq();
 	uart_printf(BCM2835_UART0, "IRQ set up\r\n");
 
-	t_display display;
-	t_st7735 st7735;
-	t_st7735_pins	pins;
-
-	pins.dc_gpio = DISPLAY_DC_GPIO;
-	pins.rst_gpio = DISPLAY_RST_GPIO;
-	st7735_init_struct(&st7735, 128u, 160u, 0u, 0u, pins);
-	st7735_attach_display(&display, &st7735);
-
-	if (display_init(&display) == false) {
-		uart_printf(BCM2835_UART0, "display init failed\r\n");
-		while (1) {}
-	}
-	uart_printf(BCM2835_UART0, "display ok\r\n");
+	uart_printf(BCM2835_UART0, "setting up DISPLAY\r\n");
+	t_st7735 st7735 = {
+		.pins = {
+			.dc_gpio = DISPLAY_DC_GPIO,
+			.rst_gpio = DISPLAY_RST_GPIO
+		},
+		.clk_div = 64u,
+		.spi_mode = SPI_MODE0,
+		.madctl = 0u,
+		.colmod = ST7735_COLMOD_16BIT
+	};
+	t_display display = {
+		.width = 128u,
+		.height = 160u,
+		.driver = ((void *)&st7735),
+		.fn = ((void *)&st7735_fn)
+	};
+	display_init(&display);
+	uart_printf(BCM2835_UART0, "DISPLAY set up\r\n");
 
 	while (1) {
 		draw_clear(&display, 0xFFFFu);
