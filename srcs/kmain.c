@@ -4,7 +4,7 @@
 #include "drivers/st7735.h"
 #include "system/mapping.h"
 #include "system/buttons.h"
-#include "games/snake.h"
+#include "games/snake/snake.h"
 #include "display/display.h"
 
 int kmain(void)
