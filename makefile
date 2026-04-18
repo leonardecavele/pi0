@@ -40,7 +40,8 @@ C_SRCS = \
 		 drivers/irq.c \
 		 drivers/st7735.c \
 		 helpers/standard.c \
-		 helpers/time.c
+		 helpers/time.c \
+		 helpers/math.c
 
 LD_SCRIPT = kernel.ld
 IMG = $(OUT)/$(NAME).img

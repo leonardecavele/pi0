@@ -1,4 +1,5 @@
 #include "helpers/time.h"
+#include "helpers/math.h"
 #include "games/snake/snake.h"
 #include "games/snake/display.h"
 #include "games/snake/logic.h"
@@ -24,6 +25,21 @@ static void update_game(t_snake_state *state)
 
 extern void snake(t_display *display)
 {
+	uint16_t cell_size = min(
+		display->width / GRID_WIDTH, display->height / GRID_HEIGHT
+	);
+	t_snake_display snake_display = {
+		.cell_size = cell_size,
+		.offset_x = (
+			display->width - (GRID_WIDTH * snake_display.cell_size)
+		) / 2u,
+		.offset_y = (
+			display->height - (GRID_HEIGHT * snake_display.cell_size)
+		) / 2u,
+		.game_width = GRID_WIDTH * cell_size,
+		.game_height = GRID_HEIGHT * cell_size
+	};
+
 	t_snake_state state = (t_snake_state){0};
 
 	uint32_t excess = 0u;

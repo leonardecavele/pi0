@@ -80,9 +80,9 @@ static void uart_putpm(uintptr_t t, va_list *pm, char c)
 		case 'd':
 			uart_putnbr(t, va_arg(*pm, int), BASE10, 10u); break;
 		case 'u':
-			uart_putunbr(t, va_arg(*pm, uint_t), BASE10, 10u); break;
+			uart_putunbr(t, va_arg(*pm, unsigned int), BASE10, 10u); break;
 		case 'x':
-			uart_putunbr(t, va_arg(*pm, uint_t), BASE16, 16u); break;
+			uart_putunbr(t, va_arg(*pm, unsigned int), BASE16, 16u); break;
 		case '%':
 			uart_putc(t, '%'); break;
 		default:

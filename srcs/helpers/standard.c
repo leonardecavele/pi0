@@ -58,3 +58,10 @@ extern void sleep(void)
 {
 	__asm__ volatile ("wfi");
 }
+
+extern void	*memcpy(void *dst, const void *src, uint64_t n)
+{
+	while (n--)
+		((uint8_t *)dst)[n] = ((uint8_t *)src)[n];
+	return (dst);
+}
