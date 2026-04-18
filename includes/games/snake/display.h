@@ -6,7 +6,8 @@
 
 typedef enum e_snake_colors
 {
-	SNAKE_BACKGROUND = 0xFFFFu
+	SNAKE_BACKGROUND = 0x0000u,
+	SNAKE_GAME_BACKGROUND = 0x4BD2
 }	t_snake_colors;
 
 typedef struct s_snake_display
@@ -18,6 +19,8 @@ typedef struct s_snake_display
 	uint16_t	game_height;
 }	t_snake_display;
 
-void draw_snake(t_display *display, t_snake_state state);
+void draw_snake(
+	t_display *display, t_snake_display *snake_display, t_snake_state state
+);
 
 #endif

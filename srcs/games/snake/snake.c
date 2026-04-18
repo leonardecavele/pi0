@@ -30,12 +30,8 @@ extern void snake(t_display *display)
 	);
 	t_snake_display snake_display = {
 		.cell_size = cell_size,
-		.offset_x = (
-			display->width - (GRID_WIDTH * snake_display.cell_size)
-		) / 2u,
-		.offset_y = (
-			display->height - (GRID_HEIGHT * snake_display.cell_size)
-		) / 2u,
+		.offset_x = (display->width - (GRID_WIDTH * cell_size)) / 2u,
+		.offset_y = (display->height - (GRID_HEIGHT * cell_size)) / 2u,
 		.game_width = GRID_WIDTH * cell_size,
 		.game_height = GRID_HEIGHT * cell_size
 	};
@@ -45,7 +41,7 @@ extern void snake(t_display *display)
 	uint32_t excess = 0u;
 	while (1) {
 		uint32_t start_us = get_time_us();
-		draw_snake(display, state);
+		draw_snake(display, &snake_display, state);
 		update_game(&state);
 		/* stabilize frame rate */
 		uint32_t elapsed_us = (get_time_us() - start_us) + excess;
