@@ -1,11 +1,12 @@
 #include "display/draw.h"
 
-static bool	draw_clip_rect(
+static bool	draw_clip_rectangle(
 	t_display *display, uint16_t *x, uint16_t *y,
 	uint16_t *width, uint16_t *height
 )
 {
-	if (display == 0 || x == 0 || y == 0 || width == 0 || height == 0)
+	if (display == 0 || display->fb == 0 || x == 0 || y == 0
+		|| width == 0 || height == 0)
 		return (false);
 	if (*width == 0u || *height == 0u)
 		return (false);
@@ -20,53 +21,81 @@ static bool	draw_clip_rect(
 	return (true);
 }
 
-extern void	draw_pixel(t_display *display, uint16_t x, uint16_t y, uint16_t color)
+extern void	draw_pixel(
+	t_display *display, uint16_t x, uint16_t y, uint16_t color
+)
 {
-	if (display == 0 || x >= display->width || y >= display->height)
+	if (display == 0 || display->fb == 0)
 		return ;
-	display_set_window(display, x, y, x, y);
-	display_write_color(display, color, 1u);
+	if (x >= display->width || y >= display->height)
+		return ;
+	display->fb[(uint32_t)y * display->width + x] = color;
 }
 
 extern void	draw_hline(
 	t_display *display, uint16_t x, uint16_t y, uint16_t width, uint16_t color
 )
 {
+	uint16_t	i;
 	uint16_t	height;
+	uint32_t	index;
 
 	height = 1u;
-	if (draw_clip_rect(display, &x, &y, &width, &height) == false)
+	if (draw_clip_rectangle(display, &x, &y, &width, &height) == false)
 		return ;
-	display_set_window(display, x, y, (uint16_t)(x + width - 1u), y);
-	display_write_color(display, color, width);
+	index = (uint32_t)y * display->width + x;
+	i = 0u;
+	while (i < width)
+	{
+		display->fb[index + i] = color;
+		i++;
+	}
 }
 
 extern void	draw_vline(
 	t_display *display, uint16_t x, uint16_t y, uint16_t height, uint16_t color
 )
 {
+	uint16_t	i;
 	uint16_t	width;
 
 	width = 1u;
-	if (draw_clip_rect(display, &x, &y, &width, &height) == false)
+	if (draw_clip_rectangle(display, &x, &y, &width, &height) == false)
 		return ;
-	display_set_window(display, x, y, x, (uint16_t)(y + height - 1u));
-	display_write_color(display, color, height);
+	i = 0u;
+	while (i < height)
+	{
+		display->fb[(uint32_t)(y + i) * display->width + x] = color;
+		i++;
+	}
 }
 
-extern void	draw_fill_rect(
+extern void	draw_fill_rectangle(
 	t_display *display, uint16_t x, uint16_t y,
 	uint16_t width, uint16_t height, uint16_t color
 )
 {
-	if (draw_clip_rect(display, &x, &y, &width, &height) == false)
+	uint16_t	row;
+	uint16_t	col;
+	uint32_t	index;
+
+	if (draw_clip_rectangle(display, &x, &y, &width, &height) == false)
 		return ;
-	display_set_window(display, x, y,
-		(uint16_t)(x + width - 1u), (uint16_t)(y + height - 1u));
-	display_write_color(display, color, (uint32_t)width * (uint32_t)height);
+	row = 0u;
+	while (row < height)
+	{
+		index = (uint32_t)(y + row) * display->width + x;
+		col = 0u;
+		while (col < width)
+		{
+			display->fb[index + col] = color;
+			col++;
+		}
+		row++;
+	}
 }
 
-extern void	draw_rect(
+extern void	draw_rectangle(
 	t_display *display, uint16_t x, uint16_t y,
 	uint16_t width, uint16_t height, uint16_t color
 )
@@ -89,14 +118,14 @@ extern void	draw_square(
 	t_display *display, uint16_t x, uint16_t y, uint16_t size, uint16_t color
 )
 {
-	draw_rect(display, x, y, size, size, color);
+	draw_rectangle(display, x, y, size, size, color);
 }
 
 extern void	draw_fill_square(
 	t_display *display, uint16_t x, uint16_t y, uint16_t size, uint16_t color
 )
 {
-	draw_fill_rect(display, x, y, size, size, color);
+	draw_fill_rectangle(display, x, y, size, size, color);
 }
 
 static void	draw_circle_points(
@@ -130,7 +159,7 @@ extern void	draw_circle(
 	int16_t	y;
 	int16_t	error;
 
-	if (display == 0 || radius < 0)
+	if (display == 0 || display->fb == 0 || radius < 0)
 		return ;
 	x = radius;
 	y = 0;
@@ -151,7 +180,9 @@ extern void	draw_circle(
 
 extern void	draw_clear(t_display *display, uint16_t color)
 {
-	if (display == 0)
+	if (display == 0 || display->fb == 0)
 		return ;
-	draw_fill_rect(display, 0u, 0u, display->width, display->height, color);
+	draw_fill_rectangle(
+		display, 0u, 0u, display->width, display->height, color
+	);
 }

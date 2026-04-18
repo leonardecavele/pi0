@@ -26,6 +26,7 @@ typedef struct s_display
 	uint16_t			y_offset;
 	void				*driver;
 	const t_display_fn	*fn;
+	uint16_t			*fb;
 } 	t_display;
 
 void	display_init(t_display *display);
@@ -37,5 +38,6 @@ void	display_write_pixels(
 	t_display *display, const uint16_t *pixels, uint32_t count
 );
 void	display_write_color(t_display *display, uint16_t color, uint32_t count);
+void	display_flush_fb(t_display *display);
 
 #endif

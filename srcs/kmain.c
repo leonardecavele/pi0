@@ -39,7 +39,8 @@ int kmain(void)
 		.width = 128u,
 		.height = 160u,
 		.driver = ((void *)&st7735),
-		.fn = ((void *)&st7735_fn)
+		.fn = ((void *)&st7735_fn),
+		.fb = (uint16_t[128u * 160u]){0}
 	};
 	display_init(&display);
 	uart_printf(BCM2835_UART0, "DISPLAY set up\r\n");

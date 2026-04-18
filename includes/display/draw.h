@@ -15,11 +15,11 @@ void	draw_hline(
 void	draw_vline(
 	t_display *display, uint16_t x, uint16_t y, uint16_t height, uint16_t color
 );
-void	draw_fill_rect(
+void	draw_fill_rectangle(
 	t_display *display, uint16_t x, uint16_t y,
 	uint16_t width, uint16_t height, uint16_t color
 );
-void	draw_rect(
+void	draw_rectangle(
 	t_display *display, uint16_t x, uint16_t y,
 	uint16_t width, uint16_t height, uint16_t color
 );

@@ -30,7 +30,8 @@ C_SRCS = \
 		 kmain.c \
 		 system/mapping.c \
 		 system/buttons.c \
-		 games/snake.c \
+		 games/snake/snake.c \
+		 games/snake/display.c \
 		 display/display.c \
 		 display/draw.c \
 		 drivers/uart.c \

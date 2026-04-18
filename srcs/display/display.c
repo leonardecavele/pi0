@@ -24,7 +24,17 @@ extern void	display_write_pixels(
 	display->fn->write_pixels(display, pixels, count);
 }
 
-extern void	display_write_color(t_display *display, uint16_t color, uint32_t count)
+extern void	display_write_color(
+	t_display *display, uint16_t color, uint32_t count
+)
 {
 	display->fn->write_color(display, color, count);
+}
+
+extern void display_flush_fb(t_display *display)
+{
+	display_set_window(display, 0, 0, display->width - 1, display->height - 1);
+	display_write_pixels(
+		display, display->fb, display->width * display->height
+	);
 }
