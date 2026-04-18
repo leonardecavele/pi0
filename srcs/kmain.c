@@ -32,15 +32,15 @@ int kmain(void)
 		},
 		.clk_div = 64u,
 		.spi_mode = SPI_MODE0,
-		.madctl = 0u,
+		.madctl = ST7735_MADCTL_MV | ST7735_MADCTL_MX,
 		.colmod = ST7735_COLMOD_16BIT
 	};
 	t_display display = {
-		.width = 128u,
-		.height = 160u,
+		.width = 160u,
+		.height = 128u,
 		.driver = ((void *)&st7735),
 		.fn = ((void *)&st7735_fn),
-		.fb = (uint16_t[128u * 160u]){0}
+		.fb = (uint16_t[160u * 128u]){0}
 	};
 	display_init(&display);
 	uart_printf(BCM2835_UART0, "DISPLAY set up\r\n");
