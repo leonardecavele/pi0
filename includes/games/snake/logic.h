@@ -8,7 +8,7 @@
 #define GRID_HEIGHT 16
 
 #define SNAKE_MAX_LEN 40
-#define SNAKE_SPEED_US 650000u
+#define SNAKE_SPEED_US (0.2 * 1000000u)
 
 typedef struct s_vec2
 {

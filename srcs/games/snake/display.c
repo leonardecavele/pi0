@@ -58,8 +58,8 @@ static void draw_snake_body(
 		draw_cell(
 			display,
 			snake_display,
-			state.body[i].v1,
-			state.body[i].v2,
+			state.body[(state.head - i + SNAKE_MAX_LEN) % SNAKE_MAX_LEN].v1,
+			state.body[(state.head - i + SNAKE_MAX_LEN) % SNAKE_MAX_LEN].v2,
 			SNAKE_BODY_COLOR
 		);
 	}
