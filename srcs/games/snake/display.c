@@ -35,6 +35,21 @@ static void draw_game_background(
 	);
 }
 
+static void	draw_fruits(
+	t_display *display, t_snake_display *snake_display, t_snake_state state
+)
+{
+	for (uint16_t i = 0; i < SNAKE_MAX_FRUIT; i++)
+		if (state.fruits[i].active)
+			draw_cell(
+				display,
+				snake_display,
+				state.fruits[i].pos.v1,
+				state.fruits[i].pos.v2,
+				SNAKE_FRUIT_COLOR
+			);
+}
+
 static void draw_snake_body(
 	t_display *display, t_snake_display *snake_display, t_snake_state state
 )
@@ -58,5 +73,6 @@ extern void draw_snake(
 	draw_clear(display, SNAKE_BACKGROUND);
 	draw_game_background(display, snake_display);
 	draw_snake_body(display, snake_display, state);
+	draw_fruits(display, snake_display, state);
 	display_flush_fb(display);
 }

@@ -1,6 +1,9 @@
 #ifndef LOGIC_SNAKE_H
 #define LOGIC_SNAKE_H
 
+#define SNAKE_MAX_FRUIT 8
+#define SNAKE_FRUIT_SPAWN_SPEED_US (8 * 1000000u)
+
 #define GRID_WIDTH 16
 #define GRID_HEIGHT 16
 
@@ -13,8 +16,15 @@ typedef struct s_vec2
 	int16_t	v2;
 }	t_vec2;
 
+typedef struct s_fruit
+{
+	t_vec2	pos;
+	bool	active;
+}	t_fruit;
+
 typedef struct s_snake_state
 {
+	t_fruit		fruits[SNAKE_MAX_FRUIT];
 	t_vec2		body[SNAKE_MAX_LEN];
 	uint16_t	head;
 	uint16_t	length;
