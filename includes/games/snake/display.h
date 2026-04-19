@@ -7,7 +7,8 @@
 typedef enum e_snake_colors
 {
 	SNAKE_BACKGROUND = 0x0000u,
-	SNAKE_GAME_BACKGROUND = 0x4BD2
+	SNAKE_GAME_BACKGROUND = 0x4BD2,
+	SNAKE_BODY_COLOR = 0x76813
 }	t_snake_colors;
 
 typedef struct s_snake_display

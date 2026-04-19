@@ -6,15 +6,19 @@
 
 #define SNAKE_MAX_LEN 40
 
-typedef struct s_pos
+typedef struct s_vec2
 {
-	uint16_t	x;
-	uint16_t	y;
-}	t_pos;
+	int16_t	v1;
+	int16_t	v2;
+}	t_vec2;
 
 typedef struct s_snake_state
 {
-	t_pos	body[SNAKE_MAX_LEN];
+	t_vec2		body[SNAKE_MAX_LEN];
+	uint16_t	head;
+	uint16_t	length;
+	bool		alive;
+	t_vec2		direction;
 }	t_snake_state;
 
 #endif

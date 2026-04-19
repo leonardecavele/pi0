@@ -3,7 +3,7 @@
 
 #include "display/display.h"
 
-#define TARGET_FPS 2u
+#define TARGET_FPS 3u
 #define FRAME_US (1000000u / TARGET_FPS)
 
 void snake(t_display *display);

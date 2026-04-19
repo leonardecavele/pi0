@@ -35,15 +35,28 @@ static void draw_game_background(
 	);
 }
 
-/* called every frame */
+static void draw_snake_body(
+	t_display *display, t_snake_display *snake_display, t_snake_state state
+)
+{
+	for (uint16_t i = 0; i < state.length; i++) {
+		draw_cell(
+			display,
+			snake_display,
+			state.body[i].v1,
+			state.body[i].v2,
+			SNAKE_BODY_COLOR
+		);
+	}
+}
+
+/* every frame */
 extern void draw_snake(
 	t_display *display, t_snake_display *snake_display, t_snake_state state
 )
 {
 	draw_clear(display, SNAKE_BACKGROUND);
 	draw_game_background(display, snake_display);
-	draw_cell(display, snake_display, 3, 4, 0x9249);
-	draw_cell(display, snake_display, 1, 0, 0x76813);
-	draw_cell(display, snake_display, 0, GRID_HEIGHT - 1, 0xBB3A);
+	draw_snake_body(display, snake_display, state);
 	display_flush_fb(display);
 }

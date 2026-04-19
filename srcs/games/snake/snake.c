@@ -7,20 +7,50 @@
 #include "display/display.h"
 #include "display/draw.h"
 
+#include "drivers/uart.h"
 static void update_game(t_snake_state *state)
 {
 	if (button_left()) {
-		;
+		if (!(state->direction.v1 == 1 && state->direction.v2 == 0)) {
+			state->direction = (t_vec2){-1, 0};
+			uart_printf(BCM2835_UART0, "LEFT\r\n");
+		}
 	}
 	if (button_up()) {
-		;
+		if (!(state->direction.v1 == 0 && state->direction.v2 == 1)) {
+			state->direction = (t_vec2){0, -1};
+			uart_printf(BCM2835_UART0, "UP\r\n");
+		}
 	}
 	if (button_right()) {
-		;
+		if (!(state->direction.v1 == -1 && state->direction.v2 == 0)) {
+			state->direction = (t_vec2){1, 0};
+			uart_printf(BCM2835_UART0, "RIGHT\r\n");
+		}
 	}
 	if (button_down()) {
-		;
+		if (!(state->direction.v1 == 0 && state->direction.v2 == -1)) {
+			state->direction = (t_vec2){0, 1};
+			uart_printf(BCM2835_UART0, "DOWN\r\n");
+		}
 	}
+
+	t_vec2 head_pos = state->body[state->head];
+
+	if (
+		head_pos.v1 + state->direction.v1 < 0
+		|| head_pos.v1 + state->direction.v1 >= GRID_WIDTH
+		|| head_pos.v2 + state->direction.v2 < 0
+		|| head_pos.v2 + state->direction.v2 >= GRID_HEIGHT
+	)
+		state->alive = false;
+	else
+		state->body[state->head] = (t_vec2){
+			head_pos.v1 + state->direction.v1, head_pos.v2 + state->direction.v2
+		};
+	uart_printf(
+		BCM2835_UART0, "x %d y %d\r\n", state->direction.v1, state->direction.v2
+	);
 }
 
 extern void snake(t_display *display)
@@ -36,7 +66,15 @@ extern void snake(t_display *display)
 		.game_height = GRID_HEIGHT * cell_size
 	};
 
-	t_snake_state state = (t_snake_state){0};
+	t_snake_state state = {
+		.alive = true,
+		.length = 1,
+		.head = 0,
+		.direction = {1, 0},
+		.body = {
+			[0] = {GRID_WIDTH / 2, GRID_HEIGHT / 2}
+		}
+	};
 
 	uint32_t excess = 0u;
 	while (1) {
