@@ -1,5 +1,7 @@
+#include "drivers/uart.h"
 #include "helpers/time.h"
 #include "helpers/math.h"
+#include "helpers/random.h"
 #include "games/snake/snake.h"
 #include "games/snake/display.h"
 #include "games/snake/logic.h"
@@ -7,9 +9,10 @@
 #include "display/display.h"
 #include "display/draw.h"
 
-#include "drivers/uart.h"
-static void update_game(t_snake_state *state)
+static void update_game(t_snake_state *state, uint32_t elapsed_us)
 {
+	static uint32_t total_elapsed_us = 0;
+
 	if (button_left()) {
 		if (!(state->direction.v1 == 1 && state->direction.v2 == 0)) {
 			state->direction = (t_vec2){-1, 0};
@@ -35,22 +38,24 @@ static void update_game(t_snake_state *state)
 		}
 	}
 
+	total_elapsed_us += elapsed_us;
+	if (total_elapsed_us < SNAKE_SPEED_US)
+		return;
+	total_elapsed_us -= SNAKE_SPEED_US;
+
 	t_vec2 head_pos = state->body[state->head];
 
-	if (
-		head_pos.v1 + state->direction.v1 < 0
-		|| head_pos.v1 + state->direction.v1 >= GRID_WIDTH
-		|| head_pos.v2 + state->direction.v2 < 0
-		|| head_pos.v2 + state->direction.v2 >= GRID_HEIGHT
-	)
-		state->alive = false;
-	else
-		state->body[state->head] = (t_vec2){
-			head_pos.v1 + state->direction.v1, head_pos.v2 + state->direction.v2
-		};
-	uart_printf(
-		BCM2835_UART0, "x %d y %d\r\n", state->direction.v1, state->direction.v2
-	);
+	state->body[state->head] = (t_vec2){
+		head_pos.v1 + state->direction.v1, head_pos.v2 + state->direction.v2
+	};
+	if (head_pos.v1 < 0)
+		state->body[state->head].v1 = GRID_WIDTH - 1;
+	if (head_pos.v1 >= GRID_WIDTH)
+		state->body[state->head].v1 = 0;
+	if (head_pos.v2 < 0)
+		state->body[state->head].v2 = GRID_HEIGHT - 1;
+	if (head_pos.v2 >= GRID_HEIGHT)
+		state->body[state->head].v2 = 0;
 }
 
 extern void snake(t_display *display)
@@ -77,12 +82,19 @@ extern void snake(t_display *display)
 	};
 
 	uint32_t excess = 0u;
+	uint32_t elapsed_us = 0u;
 	while (1) {
+		if (snake_display.freeze) {
+			snake_display.freeze--;
+			continue;
+		}
 		uint32_t start_us = get_time_us();
+		update_game(&state, elapsed_us);
+		if (state.alive == false)
+			snake_display.freeze = 20; //maybe edit
 		draw_snake(display, &snake_display, state);
-		update_game(&state);
 		/* stabilize frame rate */
-		uint32_t elapsed_us = (get_time_us() - start_us) + excess;
+		elapsed_us = (get_time_us() - start_us) + excess;
 		if (elapsed_us < FRAME_US) {
 			usleep(FRAME_US - elapsed_us);
 			excess = 0u;

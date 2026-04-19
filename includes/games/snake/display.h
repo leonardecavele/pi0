@@ -18,6 +18,7 @@ typedef struct s_snake_display
 	uint16_t	offset_y;
 	uint16_t	game_width;
 	uint16_t	game_height;
+	uint16_t	freeze;
 }	t_snake_display;
 
 void draw_snake(
