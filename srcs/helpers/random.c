@@ -7,7 +7,7 @@ extern void	random_seed(uint32_t seed)
 	g_random_state = seed;
 }
 
-extern uint32_t	random_32u(void)
+extern uint32_t	random_u32(void)
 {
 	uint32_t i = g_random_state;
 
