@@ -16,24 +16,23 @@ static void update_buttons(t_snake_state *state)
 		if (!(state->direction.v1 == 1 && state->direction.v2 == 0))
 			state->direction = (t_vec2){-1, 0};
 	}
-	if (button_up()) {
+	else if (button_up()) {
 		uart_printf(BCM2835_UART0, "snake: UP\r\n");
 		if (!(state->direction.v1 == 0 && state->direction.v2 == 1))
 			state->direction = (t_vec2){0, -1};
 	}
-	if (button_right()) {
+	else if (button_right()) {
 		uart_printf(BCM2835_UART0, "snake: RIGHT\r\n");
 		if (!(state->direction.v1 == -1 && state->direction.v2 == 0))
 			state->direction = (t_vec2){1, 0};
 	}
-	if (button_down()) {
+	else if (button_down()) {
 		uart_printf(BCM2835_UART0, "snake: DOWN\r\n");
 		if (!(state->direction.v1 == 0 && state->direction.v2 == -1))
 			state->direction = (t_vec2){0, 1};
 	}
 }
 
-// issue when using valid direction and directly after invalid direction
 static bool update_direction(t_snake_state *state, uint32_t elapsed_us)
 {
 	static uint32_t total_elapsed_us = 0;

@@ -45,7 +45,7 @@ static void	draw_fruit(
 			snake_display,
 			state.fruit.pos.v1,
 			state.fruit.pos.v2,
-			SNAKE_FRUIT_COLOR
+			(uint16_t)SNAKE_FRUIT_COLOR
 		);
 }
 
@@ -59,7 +59,7 @@ static void draw_snake_body(
 			snake_display,
 			state.body[(state.head - i + SNAKE_MAX_LEN) % SNAKE_MAX_LEN].v1,
 			state.body[(state.head - i + SNAKE_MAX_LEN) % SNAKE_MAX_LEN].v2,
-			SNAKE_BODY_COLOR
+			(uint16_t)SNAKE_BODY_COLOR
 		);
 	}
 }
